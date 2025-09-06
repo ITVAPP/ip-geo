@@ -251,15 +251,14 @@ const CORS_HEADERS = {
 ## 📁 项目结构
 
 ```
+├── middleware.js          # Vercel Edge Functions 代码
 ├── Cloudflare/
 │   └── worker.js          # Cloudflare Workers 代码
-├── Vercel/
-│   └── middleware.js      # Vercel Edge Functions 代码
 ├── Netlify/
 │   └── edge-functions/
 │       └── ip-api.js      # Netlify Edge Functions 代码
 ├── package.json           # Vercel 依赖配置
-├── netlify.toml          # Netlify 配置（可选）
+├── netlify.toml          # Netlify 配置
 └── README.md             # 本文档
 ```
 
