@@ -1,0 +1,6 @@
+[[edge_functions]]
+  path = "/*"
+  function = "ip-api"
+
+[build]
+  edge_functions = "Netlify/edge-functions"
