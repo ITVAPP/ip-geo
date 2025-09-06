@@ -44,6 +44,8 @@
 4. **完成！**
    - 你的 API 地址：`https://ip-api.[你的子域名].workers.dev`
 
+> **注意**：如果使用 Cloudflare Pages 部署，会自动使用根目录的 `_worker.js` 文件
+
 ### 🔺 Vercel Edge Functions
 
 1. **Fork 本仓库**
@@ -251,6 +253,7 @@ const CORS_HEADERS = {
 ## 📁 项目结构
 
 ```
+├── _worker.js             # Cloudflare Pages 自动识别文件
 ├── middleware.js          # Vercel Edge Functions 代码
 ├── Cloudflare/
 │   └── worker.js          # Cloudflare Workers 代码
