@@ -271,10 +271,6 @@ const CORS_HEADERS = {
 
 MIT License - 免费使用，无需署名
 
-## ⭐ Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=ITVAPP/ip-geo&type=Date)](https://star-history.com/#ITVAPP/ip-geo&Date)
-
 ---
 
 **如果这个项目对你有帮助，请给个 ⭐ Star 支持一下！**
