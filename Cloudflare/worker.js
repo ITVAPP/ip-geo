@@ -32,10 +32,10 @@ export default {
           countryRegion: request.cf?.region || request.headers.get('cf-region') || null,
           city: request.cf?.city || request.headers.get('cf-ipcity') || null,
           region: request.cf?.colo || colo || null,
-          // 确保 latitude 和 longitude 是字符串格式
-          latitude: request.cf?.latitude ? String(request.cf.latitude) : 
+          // 简化 latitude 和 longitude 转换
+          latitude: request.cf?.latitude != null ? String(request.cf.latitude) : 
                    request.headers.get('cf-iplatitude') || null,
-          longitude: request.cf?.longitude ? String(request.cf.longitude) : 
+          longitude: request.cf?.longitude != null ? String(request.cf.longitude) : 
                     request.headers.get('cf-iplongitude') || null,
           asOrganization: request.cf?.asOrganization || request.headers.get('x-asn') || null,
         }
