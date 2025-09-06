@@ -20,17 +20,15 @@ export default function middleware(request) {
       const geo = geolocation(request) || {}
       console.log(geo)
       
-      // 映射字段 - 增加类型安全处理
+      // 映射字段 - 修复 region 字段bug，简化类型转换
       const mappedGeo = {
         country: geo.country || null,
         countryRegion: geo.region || null,
         city: geo.city || null,
-        region: geo.region || null,
-        // 安全转换为字符串，处理 undefined/null
-        latitude: geo.latitude !== undefined && geo.latitude !== null ? 
-                 String(geo.latitude) : null,
-        longitude: geo.longitude !== undefined && geo.longitude !== null ? 
-                  String(geo.longitude) : null,
+        region: geo.region || null,  // Vercel 只提供 region，没有独立的数据中心代码
+        // 简化 latitude 和 longitude 转换
+        latitude: geo.latitude != null ? String(geo.latitude) : null,
+        longitude: geo.longitude != null ? String(geo.longitude) : null,
         asOrganization: null,  // Vercel 不提供此信息
       }
       
