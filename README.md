@@ -1,29 +1,30 @@
 # 🌍 IP Geolocation API
 
-一个简单、快速、免费的 IP 地理位置查询 API，支持 Cloudflare Workers 和 Vercel Edge Functions 部署。
+一个简单、快速、免费的 IP 地理位置查询 API，支持 Cloudflare Workers、Vercel Edge Functions 和 Netlify Edge Functions 三大平台部署。
 
 ## ✨ 特性
 
 - 🚀 **极速响应** - 基于边缘计算，全球节点就近响应
-- 🆓 **完全免费** - 使用平台免费额度，无需付费
+- 🆓 **完全免费** - 使用平台免费额度，零成本运行
 - 🌐 **全球覆盖** - 准确识别全球 IP 地理位置
 - 🔒 **隐私安全** - 不记录任何访问日志
 - 📦 **零依赖** - 无需数据库，无需维护
-- 🎯 **双平台支持** - Cloudflare 和 Vercel 任选其一
+- 🎯 **三平台支持** - 任选其一或同时部署实现高可用
 
 ## 🚀 一键部署
 
-### 部署到 Cloudflare Workers
+### Cloudflare Workers
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/ITVAPP/ip-geo)
 
-[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/YOUR_USERNAME/YOUR_REPO)
+### Vercel Edge Functions
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/ITVAPP/ip-geo)
 
-### 部署到 Vercel
+### Netlify Edge Functions
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ITVAPP/ip-geo)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/YOUR_REPO)
+## 📖 手动部署指南
 
-## 📖 浏览器部署指南
-
-### 🟠 Cloudflare Workers 部署（推荐）
+### 🟠 Cloudflare Workers（推荐）
 
 1. **登录 Cloudflare Dashboard**
    - 访问 [dash.cloudflare.com](https://dash.cloudflare.com)
@@ -37,14 +38,13 @@
 3. **添加代码**
    - 点击 `Quick Edit` 按钮
    - 删除默认代码
-   - 复制 [`cloudflare/worker.js`](./cloudflare/worker.js) 的内容粘贴
+   - 复制 [`Cloudflare/worker.js`](./Cloudflare/worker.js) 的内容粘贴
    - 点击 `Save and Deploy`
 
 4. **完成！**
    - 你的 API 地址：`https://ip-api.[你的子域名].workers.dev`
-   - 测试：访问 `https://ip-api.[你的子域名].workers.dev/geo`
 
-### 🔺 Vercel 部署
+### 🔺 Vercel Edge Functions
 
 1. **Fork 本仓库**
    - 点击本页面右上角的 `Fork` 按钮
@@ -61,7 +61,25 @@
 
 4. **完成！**
    - 你的 API 地址：`https://[项目名].vercel.app`
-   - 测试：访问 `https://[项目名].vercel.app/geo`
+
+### 🟦 Netlify Edge Functions
+
+1. **Fork 本仓库**
+   - 点击本页面右上角的 `Fork` 按钮
+
+2. **导入到 Netlify**
+   - 访问 [app.netlify.com](https://app.netlify.com)
+   - 点击 `Add new site` → `Import an existing project`
+   - 选择 GitHub 并授权
+   - 选择你 Fork 的仓库
+
+3. **配置部署**
+   - Build command: 留空
+   - Publish directory: 留空或填 `.`
+   - 点击 `Deploy site`
+
+4. **完成！**
+   - 你的 API 地址：`https://[项目名].netlify.app`
 
 ## 📡 API 使用说明
 
@@ -75,25 +93,19 @@
 ### 响应示例
 
 #### 获取 IP 地址
-
-**请求：**
 ```bash
 curl https://your-api.workers.dev/
 ```
-
-**响应：**
+响应：
 ```
 8.8.8.8
 ```
 
 #### 获取地理位置信息
-
-**请求：**
 ```bash
 curl https://your-api.workers.dev/geo
 ```
-
-**响应：**
+响应：
 ```json
 {
   "ip": "8.8.8.8",
@@ -109,8 +121,7 @@ curl https://your-api.workers.dev/geo
 
 ## 💻 代码示例
 
-### JavaScript/Node.js
-
+### JavaScript
 ```javascript
 // 获取 IP
 fetch('https://your-api.workers.dev/')
@@ -121,13 +132,12 @@ fetch('https://your-api.workers.dev/')
 fetch('https://your-api.workers.dev/geo')
   .then(res => res.json())
   .then(data => {
-    console.log('位置:', data.city, data.country);
-    console.log('坐标:', data.latitude, data.longitude);
+    console.log(`位置: ${data.city}, ${data.country}`);
+    console.log(`坐标: ${data.latitude}, ${data.longitude}`);
   });
 ```
 
 ### Python
-
 ```python
 import requests
 
@@ -141,8 +151,27 @@ print(f"位置: {geo['city']}, {geo['country']}")
 print(f"坐标: {geo['latitude']}, {geo['longitude']}")
 ```
 
-### HTML/前端
+### cURL
+```bash
+# 获取 IP
+curl https://your-api.workers.dev/
 
+# 获取地理位置（格式化输出）
+curl https://your-api.workers.dev/geo | json_pp
+```
+
+### PHP
+```php
+// 获取 IP
+$ip = file_get_contents('https://your-api.workers.dev/');
+echo "IP: " . $ip;
+
+// 获取地理位置
+$geo = json_decode(file_get_contents('https://your-api.workers.dev/geo'), true);
+echo "位置: " . $geo['city'] . ", " . $geo['country'];
+```
+
+### HTML 示例
 ```html
 <!DOCTYPE html>
 <html>
@@ -172,165 +201,67 @@ print(f"坐标: {geo['latitude']}, {geo['longitude']}")
 </html>
 ```
 
-### cURL
-
-```bash
-# 获取 IP
-curl https://your-api.workers.dev/
-
-# 获取地理位置（格式化输出）
-curl https://your-api.workers.dev/geo | json_pp
-```
-
-### PHP
-
-```php
-// 获取 IP
-$ip = file_get_contents('https://your-api.workers.dev/');
-echo "IP: " . $ip;
-
-// 获取地理位置
-$geo = json_decode(file_get_contents('https://your-api.workers.dev/geo'), true);
-echo "位置: " . $geo['city'] . ", " . $geo['country'];
-```
-
 ## 📊 返回字段说明
 
-| 字段 | 类型 | 说明 | Cloudflare | Vercel |
-|------|------|------|------------|---------|
-| `ip` | string | 访问者 IP 地址 | ✅ | ✅ |
-| `country` | string | 国家代码 (ISO 3166-1 alpha-2) | ✅ | ✅ |
-| `countryRegion` | string | 州/省代码 | ✅ | ✅ |
-| `city` | string | 城市名称 | ✅ | ✅ |
-| `region` | string | 地区/数据中心代码 | ✅ | ✅ |
-| `latitude` | string | 纬度坐标 | ✅ | ✅ |
-| `longitude` | string | 经度坐标 | ✅ | ✅ |
-| `asOrganization` | string/null | ISP/组织名称 | ✅ | ❌ |
+| 字段 | 类型 | 说明 | Cloudflare | Vercel | Netlify |
+|------|------|------|------------|---------|----------|
+| `ip` | string | 访问者 IP 地址 | ✅ | ✅ | ✅ |
+| `country` | string | 国家代码 (ISO 3166-1) | ✅ | ✅ | ✅ |
+| `countryRegion` | string | 州/省代码 | ✅ | ✅ | ✅ |
+| `city` | string | 城市名称 | ✅ | ✅ | ✅ |
+| `region` | string | 地区/数据中心代码 | ✅ | ✅ | ✅ |
+| `latitude` | string | 纬度坐标 | ✅ | ✅ | ✅ |
+| `longitude` | string | 经度坐标 | ✅ | ✅ | ✅ |
+| `asOrganization` | string/null | ISP/组织名称 | ✅ | ❌ | ❌ |
 
-> **注意**：`asOrganization` 字段仅在 Cloudflare Workers 可用，Vercel 返回 `null`。
+> **注意**：`asOrganization` 字段仅在 Cloudflare Workers 返回实际值，Vercel 和 Netlify 返回 `null`。
 
-## 🌐 在线演示
+## ⚡ 平台对比
 
-你可以使用以下公共演示 API 进行测试（请勿用于生产环境）：
+| 特性 | Cloudflare Workers | Vercel Edge | Netlify Edge |
+|------|-------------------|-------------|--------------|
+| **免费额度** | 100,000 请求/天 | 100GB 带宽/月 | 125,000 请求/月 |
+| **全球节点** | 275+ 个城市 | 20+ 个区域 | 全球 CDN |
+| **响应时间** | ~10-50ms | ~20-80ms | ~30-90ms |
+| **冷启动** | 几乎无 | 极低 | 低 |
+| **地理数据** | 最完整 | 基础 | 基础 |
+| **部署难度** | ⭐ 简单 | ⭐ 简单 | ⭐⭐ 中等 |
 
-- **Cloudflare Demo**: `https://ip-api-demo.workers.dev/geo`
-- **Vercel Demo**: `https://ip-api-demo.vercel.app/geo`
-
-## ⚡ 性能对比
-
-| 平台 | 响应时间 | 全球节点 | 免费额度 |
-|------|----------|----------|----------|
-| Cloudflare Workers | ~10-50ms | 275+ 个城市 | 100,000 请求/天 |
-| Vercel Edge | ~20-80ms | 20+ 个区域 | 100GB 带宽/月 |
-
-## 🔒 安全与隐私
+## 🔒 配置与安全
 
 ### CORS 配置
-默认允许所有域名访问。如需限制，修改 `CORS_HEADERS`：
+默认允许所有域名访问。如需限制，修改代码中的 `CORS_HEADERS`：
 ```javascript
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': 'https://yourdomain.com'  // 限制特定域名
 }
 ```
 
-### 隐私保护
-- ✅ 不记录任何访问日志
-- ✅ 不存储用户数据
-- ✅ 仅返回公开的地理位置信息
-- ✅ 精度限制在城市级别
-
 ### 请求限制
-- **Cloudflare Workers**
-  - 免费计划：100,000 请求/天
-  - CPU 时间：10ms
-  
-- **Vercel Edge Functions**
-  - 免费计划：100GB 带宽/月
-  - 执行时间：无限制
+- **Cloudflare**：免费 100,000 请求/天，10ms CPU 时间
+- **Vercel**：免费 100GB 带宽/月，无请求数限制
+- **Netlify**：免费 125,000 请求/月，100GB 带宽
 
-## 🛠 本地开发
+### 隐私说明
+- ✅ 不记录访问日志
+- ✅ 不存储用户数据
+- ✅ 仅返回公开地理位置信息
+- ✅ 城市级别精度
 
-### Cloudflare Workers
-
-```bash
-# 安装 Wrangler CLI
-npm install -g wrangler
-
-# 克隆仓库
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
-
-# 本地开发
-wrangler dev cloudflare/worker.js
-
-# 部署
-wrangler deploy cloudflare/worker.js
-```
-
-### Vercel
-
-```bash
-# 安装 Vercel CLI
-npm install -g vercel
-
-# 克隆仓库
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
-
-# 安装依赖
-npm install
-
-# 本地开发
-vercel dev
-
-# 部署
-vercel --prod
-```
-
-## 📝 项目结构
+## 📁 项目结构
 
 ```
-├── README.md           # 本文档
-├── LICENSE            # 许可证
-├── cloudflare/
-│   └── worker.js      # Cloudflare Workers 代码
-├── vercel/
-│   └── middleware.js  # Vercel Edge Functions 代码
-└── package.json       # Vercel 依赖配置
+├── Cloudflare/
+│   └── worker.js          # Cloudflare Workers 代码
+├── Vercel/
+│   └── middleware.js      # Vercel Edge Functions 代码
+├── Netlify/
+│   └── edge-functions/
+│       └── ip-api.js      # Netlify Edge Functions 代码
+├── package.json           # Vercel 依赖配置
+├── netlify.toml          # Netlify 配置（可选）
+└── README.md             # 本文档
 ```
-
-## 🤔 常见问题
-
-<details>
-<summary><b>Q: 返回 IP 为 0.0.0.0？</b></summary>
-
-这通常发生在本地开发环境。请确保：
-- 已正确部署到 Cloudflare/Vercel
-- 使用线上 URL 而非 localhost
-</details>
-
-<details>
-<summary><b>Q: 地理位置不准确？</b></summary>
-
-IP 地理位置数据库的准确度：
-- 国家级别：99.8% 准确
-- 城市级别：80-90% 准确
-- VPN/代理 IP 可能显示错误位置
-</details>
-
-<details>
-<summary><b>Q: 如何提高请求限制？</b></summary>
-
-- Cloudflare：升级到 Workers Paid 计划（$5/月起）
-- Vercel：升级到 Pro 计划（$20/月起）
-- 或部署多个实例进行负载均衡
-</details>
-
-<details>
-<summary><b>Q: 支持 IPv6 吗？</b></summary>
-
-是的，两个平台都完全支持 IPv6 地址。
-</details>
 
 ## 🤝 贡献
 
@@ -338,17 +269,11 @@ IP 地理位置数据库的准确度：
 
 ## 📄 许可证
 
-MIT License - 随意使用，无需署名
+MIT License - 免费使用，无需署名
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=YOUR_USERNAME/YOUR_REPO&type=Date)](https://star-history.com/#YOUR_USERNAME/YOUR_REPO&Date)
-
-## 🙏 致谢
-
-- [Cloudflare Workers](https://workers.cloudflare.com/) - 提供边缘计算平台
-- [Vercel Edge Functions](https://vercel.com/docs/functions) - 提供边缘函数服务
-- 所有贡献者和使用者
+[![Star History Chart](https://api.star-history.com/svg?repos=ITVAPP/ip-geo&type=Date)](https://star-history.com/#ITVAPP/ip-geo&Date)
 
 ---
 
